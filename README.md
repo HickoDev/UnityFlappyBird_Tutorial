@@ -96,6 +96,16 @@ The Circle Collider 2D component adds a circular collision area around the playe
 Click Add Component again and search for Rigidbody 2D.
 The Rigidbody 2D component adds physics properties to the player, enabling it to react to forces like gravity and be moved by physics-based interactions. By default, Unity applies gravity to objects with a Rigidbody 2D, which will cause the bird to fall unless we apply a force (e.g., when the player taps the screen or presses a key).
 
+![image](https://github.com/user-attachments/assets/8254dc39-4be8-4b18-905a-a5724bec94b0)
+
+the final result will look like this :
+
+![Capture d'écran 2025-01-20 222131](https://github.com/user-attachments/assets/6ad16121-8346-4a00-970c-df9e95cb91c5)
+
+**Tip:**  
+For the Player GameObject, we use colliders smaller than the actual size of the player sprite. This ensures that the game isn't too strict with collisions, giving the player a little more room to navigate and making the game more fun and forgiving. This small adjustment helps prevent frustrating moments where the player might collide with an obstacle even though they didn’t technically touch it.
+
+
 **4- Adding the Player Script**
 Now, let's create a script that will make the player (bird) jump when the player clicks the left mouse button.
 
