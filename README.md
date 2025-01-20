@@ -3,10 +3,11 @@ Welcome to this beginner-friendly Unity course! This project is designed for tho
 
 Through this project, you will learn the basics of Unity, including:
 
-Scene setup and game objects
-Scripting with C# to handle game mechanics
-Implementing physics and controls for your game character
-Creating user interfaces (UI) for score and game over screens
+* Scene setup and game objects
+* Scripting with C# to handle game mechanics
+* Implementing physics and controls for your game character
+* Creating user interfaces (UI) for score and game over screens
+  
 By the end of this course, you’ll have a fully functional Flappy Bird clone and a solid understanding of Unity's core concepts, preparing you for more advanced projects in game development!
 
 This course is perfect for beginners, and no prior experience with Unity is required.
@@ -60,6 +61,41 @@ Once the project is open, let's familiarize ourselves with the Unity Editor inte
 
 **Console Window:** Displays output from your game, such as debug messages, warnings, and errors.
 ![image](https://github.com/user-attachments/assets/62eb8f68-1ecc-444e-b1b4-afa5f2877ca0)
+
+
+# Setting Up the Background
+Now that we understand the layout of the Unity Editor, we will add the background for the game.
+
+1-Create an empty GameObject and name it "Background."
+
+2-From the Art folder, drag the background image into the Scene and assign it to the "Background" GameObject.
+
+3-Continue dragging and positioning additional background images until the entire background area is covered in the Game View.
+![image](https://github.com/user-attachments/assets/904a46b1-fce3-44f3-b515-880b8235944b)
+
+# Create the Player
+
+
+**1-Create the Player GameObject:**
+
+* Right-click in the Hierarchy Window and select Create Empty.
+* Rename the new GameObject to "Player."
+
+**2-Assign the Bird Sprite to the Player:**
+
+* From the Art folder, drag the bird sprite into the Scene and assign it to the "Player" GameObject. You can do this by dragging the sprite onto the Player GameObject in the Hierarchy Window.
+ 
+**3-Add Components to the Player:**
+
+* Circle Collider 2D:
+  
+With the Player GameObject selected, click Add Component in the Inspector Window and search for Circle Collider 2D.
+The Circle Collider 2D component adds a circular collision area around the player. This helps detect collisions with other objects in the game (e.g., pipes, ground, etc.).
+* Rigidbody 2D:
+  
+Click Add Component again and search for Rigidbody 2D.
+The Rigidbody 2D component adds physics properties to the player, enabling it to react to forces like gravity and be moved by physics-based interactions. By default, Unity applies gravity to objects with a Rigidbody 2D, which will cause the bird to fall unless we apply a force (e.g., when the player taps the screen or presses a key).
+
 
 
 
