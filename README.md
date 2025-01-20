@@ -76,16 +76,16 @@ Now that we understand the layout of the Unity Editor, we will add the backgroun
 # Create the Player
 
 
-**1-Create the Player GameObject:**
+### 1-Create the Player GameObject:
 
 * Right-click in the Hierarchy Window and select Create Empty.
 * Rename the new GameObject to "Player."
 
-**2-Assign the Bird Sprite to the Player:**
+### 2-Assign the Bird Sprite to the Player:
 
 * From the Art folder, drag the bird sprite into the Scene and assign it to the "Player" GameObject. You can do this by dragging the sprite onto the Player GameObject in the Hierarchy Window.
  
-**3-Add Components to the Player:**
+### 3-Add Components to the Player:
 
 * Circle Collider 2D:
   
@@ -106,7 +106,8 @@ the final result will look like this :
 For the Player GameObject, we use colliders smaller than the actual size of the player sprite. This ensures that the game isn't too strict with collisions, giving the player a little more room to navigate and making the game more fun and forgiving. This small adjustment helps prevent frustrating moments where the player might collide with an obstacle even though they didn’t technically touch it.
 
 
-**4- Adding the Player Script**
+### 4- Adding the Player Script
+
 Now, let's create a script that will make the player (bird) jump when the player clicks the left mouse button.
 
 
@@ -152,6 +153,12 @@ public class BirdController : MonoBehaviour
 
 - **`void Update()`**: Checks if the left mouse button is clicked (`Input.GetMouseButtonDown(0)`). If clicked, it applies an upward velocity (`rb.linearVelocity = Vector2.up * jumpForce;`), making the bird jump.
 
+### Attach the Script to the Player GameObject:
+
+1. Save the script and return to Unity.
+2. Select the **Player GameObject** in the **Hierarchy Window**.
+3. In the **Inspector Window**, click **Add Component** and search for `BirdController`.
+4. Select the script to attach it to the **Player GameObject**.
 
 
 
