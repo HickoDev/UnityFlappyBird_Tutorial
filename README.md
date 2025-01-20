@@ -87,26 +87,63 @@ Now that we understand the layout of the Unity Editor, we will add the backgroun
  
 **3-Add Components to the Player:**
 
-**Circle Collider 2D:**
+* Circle Collider 2D:
   
-* With the Player GameObject selected, click Add Component in the Inspector Window and search for Circle Collider 2D.
+With the Player GameObject selected, click Add Component in the Inspector Window and search for Circle Collider 2D.
 The Circle Collider 2D component adds a circular collision area around the player. This helps detect collisions with other objects in the game (e.g., pipes, ground, etc.).
-
-**Rigidbody 2D:**
+* Rigidbody 2D:
   
-* Click Add Component again and search for Rigidbody 2D.
-* The Rigidbody 2D component adds physics properties to the player, enabling it to react to forces like gravity and be moved by physics-based interactions. By default, Unity applies gravity to objects with a Rigidbody 2D, which will cause the bird to fall unless we apply a force (e.g., when the player taps the screen or presses a key).
+Click Add Component again and search for Rigidbody 2D.
+The Rigidbody 2D component adds physics properties to the player, enabling it to react to forces like gravity and be moved by physics-based interactions. By default, Unity applies gravity to objects with a Rigidbody 2D, which will cause the bird to fall unless we apply a force (e.g., when the player taps the screen or presses a key).
 
-  ![image](https://github.com/user-attachments/assets/6f6c96c4-2f8f-4a55-9f91-69897115082f)
+**4- Adding the Player Script**
+Now, let's create a script that will make the player (bird) jump when the player clicks the left mouse button.
 
 
-The final result will look like this for the player character :
 
-![image](https://github.com/user-attachments/assets/92bbc9ea-395d-4bbd-bde0-eff34b605ddb)
+* In the Project Window, right-click and select Create → C# Script.
+* Name the script BirdController.
+* Open the Script and Write the Code:
+* Double-click the newly created BirdController script to open it in your preferred code editor (e.g., Visual Studio or Visual Studio Code).
+```csharp
+using UnityEngine;
 
-**Tip:**
+public class BirdController : MonoBehaviour
+{
+    public float jumpForce = 5f;
+    private Rigidbody2D rb;
 
-For the Player GameObject, we use colliders smaller than the actual size of the player sprite. This ensures that the game isn't too strict with collisions, giving the player a little more room to navigate and making the game more fun and forgiving. This small adjustment helps prevent frustrating moments where the player might collide with an obstacle even though they didn’t technically touch it.
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+             rb.linearVelocity = Vector2.up * jumpForce; 
+        }
+    }
+}
+```
+### Script Breakdown:
+
+- **`using UnityEngine;`**: Includes Unity's core libraries to use built-in classes like `MonoBehaviour` and `Rigidbody2D`.
+  
+- **`public class BirdController : MonoBehaviour`**: Defines the class controlling the bird's behavior, inheriting from `MonoBehaviour`.
+-  **`MonoBehaviour`** is the base class from which every Unity script derives. It provides Unity-specific functions like `Start()`, `Update()`, `Awake()`, etc. These methods allow you to hook into Unity’s game loop, which is essential for responding to game events like input, collisions, and physics.
+
+- **`public float jumpForce = 5f;`**: A public variable to control the jump strength, editable in the Unity Editor.
+
+- **`private Rigidbody2D rb;`**: A reference to the **Rigidbody2D** component for handling physics.
+
+- **`void Start()`**: Finds and stores the **Rigidbody2D** component when the game starts.
+
+- **`void Update()`**: Checks if the left mouse button is clicked (`Input.GetMouseButtonDown(0)`). If clicked, it applies an upward velocity (`rb.linearVelocity = Vector2.up * jumpForce;`), making the bird jump.
+
+
+
 
 
 
