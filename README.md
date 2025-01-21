@@ -160,6 +160,85 @@ public class BirdController : MonoBehaviour
 3. In the **Inspector Window**, click **Add Component** and search for `BirdController`.
 4. Select the script to attach it to the **Player GameObject**.
 
+# Create the Pipe GameObject and Script
+
+1. **Create the Obstacle GameObject:**
+   - In the **Hierarchy Window**, right-click and select `Create Empty`.
+   - Name this GameObject `Obstacle`.
+     
+
+
+2. **Add Children to the Obstacle GameObject:**
+   - **Pipes:**
+     - Right-click on the `Obstacle` GameObject and select `2D Object` → `Sprite`.
+     - Assign the pipe sprite to this object.
+     - Rename it `PipeTop`.
+     - Repeat the process to create a second child named `PipeBottom`.
+     - Add a **Box Collider 2D** component to both `PipeTop` and `PipeBottom` to enable collision detection.
+   - **Score Trigger:**
+     - Right-click on the `Obstacle` GameObject and select `Create Empty`.
+     - Name this GameObject `Score`.
+     - Add a **Box Collider 2D** to it.
+     - Check the **Is Trigger** option on the `Score` GameObject’s collider. This allows the bird to pass through it without physical collision.
+    
+       
+   ![image](https://github.com/user-attachments/assets/dd3b198c-f5fb-43c0-b460-9fb34d1b55f6)
+
+
+
+
+3. **Set Up the Collision:**
+   - Position the `PipeTop`, `PipeBottom`, and `Score` children so that they form a passable obstacle.
+   - The collision will look like this:
+   
+  ![Capture d'écran 2025-01-21 164252](https://github.com/user-attachments/assets/098dfa21-abb8-4130-8e58-a786d0d2c5de)
+
+### Difference Between Trigger and Real Collision
+
+| **Aspect**            | **Trigger Collider**                                                                 | **Regular Collider**                                                              |
+|------------------------|---------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| **Definition**         | A collider set to "Is Trigger" allows objects to pass through it without physical interaction. | A regular collider prevents objects from passing through it, enabling physical collisions. |
+| **Purpose**            | Used for detecting events, such as scoring or activating gameplay mechanics.          | Used for creating physical boundaries and realistic interactions between objects. |
+| **Physics Interaction**| Does not apply physical forces or stop objects; only detects overlap.                 | Applies physical forces and stops objects when they collide.                     |
+| **Event Methods**      | Triggers methods like `OnTriggerEnter2D`, `OnTriggerStay2D`, and `OnTriggerExit2D`.   | Triggers methods like `OnCollisionEnter2D`, `OnCollisionStay2D`, and `OnCollisionExit2D`. |
+| **Example Use Case**   | Passing through a "score zone" or detecting entry into a special area.                | Preventing the player from going through walls or colliding with obstacles.       |
+
+### Purpose of Each Component:
+- **Pipes (`PipeTop` and `PipeBottom`)**: These represent the visible obstacles the player needs to avoid.
+- **Score Trigger (`Score`)**: A hidden collider used to detect when the bird successfully passes between the pipes, allowing you to track the score.
+
+### 4. Creating the Pipe Script
+
+Now, we need to give the obstacle movement. The goal is for the obstacle to move toward the player, simulating the gameplay challenge. Additionally, once the obstacle leaves the game view, we’ll destroy it to prevent unnecessary objects from remaining in the scene. 
+
+This helps optimize resource management, which is a good practice in game development. Although in this small project it might not have a significant performance impact, it’s important to get into the habit of keeping the game scene clean.
+
+#### Script:
+
+```csharp
+using UnityEngine;
+
+public class PipeScript : MonoBehaviour
+{
+    public float moveSpeed = 2f; // Speed at which the pipe moves
+    public float destroyXPosition = -10f; // X position at which the pipe is destroyed
+
+    void Update()
+    {
+        // Move the pipe to the left along the X-axis
+        transform.position += Vector3.left * moveSpeed * Time.deltaTime;
+
+        // Destroy the pipe if it goes beyond the destroy position on the X-axis
+        if (transform.position.x <= destroyXPosition)
+        {
+            Destroy(gameObject);
+        }
+    }
+}
+```
+
+
+
 
 
 
