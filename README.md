@@ -236,6 +236,37 @@ public class PipeScript : MonoBehaviour
     }
 }
 ```
+### 5. Creating the Floor Background
+
+Next, we’ll create the floor background to simulate the scrolling effect of the ground beneath the player. The floor will move at the same rate as the pipes and loop seamlessly as part of the gameplay experience. Additionally, we will add a collider to the floor to detect collisions with the player.
+
+#### Steps to Set Up the Floor Background:
+
+1. **Create the Floor GameObject**:
+   - In the **Hierarchy Window**, create a new empty GameObject and name it `Floor`.
+   - Drag and drop the floor sprite from your assets into the scene and assign it to the `Floor` GameObject.
+
+2. **Repeat the Background**:
+   - Duplicate the floor sprite and place copies side by side in the Scene View until the entire background is covered in the Game View.
+   - Ensure the sprites are aligned seamlessly to avoid visual gaps.
+
+3. **Add a Collider**:
+   - Select the `Floor` GameObject in the **Hierarchy Window**.
+   - In the **Inspector Window**, click **Add Component** and add a **Box Collider 2D**.
+   - Adjust the collider size and position to match the visible floor area.
+
+4. **Attach the Movement Script**:
+   - Since the floor background moves at the same speed as the pipes, we can reuse the `PipeScript`.
+   - Attach the `PipeScript` to the `Floor` GameObject:
+     1. Select the `Floor` GameObject.
+     2. Click **Add Component** in the **Inspector Window**.
+     3. Search for `PipeScript` and add it.
+
+
+This setup ensures the floor background scrolls seamlessly alongside the pipes, creating a cohesive and dynamic game environment. Using the same script simplifies the implementation and keeps the codebase clean.
+
+![image](https://github.com/user-attachments/assets/ee664091-345a-4722-a0ea-8eeb21b39de7)
+
 
 
 
