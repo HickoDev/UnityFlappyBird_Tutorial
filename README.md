@@ -268,6 +268,132 @@ This setup ensures the floor background scrolls seamlessly alongside the pipes, 
 ![image](https://github.com/user-attachments/assets/ee664091-345a-4722-a0ea-8eeb21b39de7)
 
 
+# Handling Collisions and Displaying the Score
+
+### Tags in Unity
+
+In Unity, **tags** are a way to categorize and identify GameObjects. They allow you to easily reference specific objects in your scene without needing to store a reference to each one individually. Tags are especially useful for organizing and managing GameObjects in your project, making it easier to handle different types of objects during gameplay.
+
+#### What are Tags Used For?
+Tags are typically used for:
+- **Identifying specific GameObjects**: For example, you can use tags to mark objects like "Player", "Enemy", "Score", or "Obstacle".
+- **Efficient Collision Detection**: You can check whether a GameObject is of a specific type in scripts, allowing you to handle events like scoring or collisions.
+- **Layered Logic**: Tags can help you organize your game objects logically, making it easier to manage complex interactions.
+
+#### How to Create and Use Tags:
+
+#### Steps to Tag GameObjects:
+
+1. **Add Tags**:
+   - **Obstacle Detection**:
+     - Select the obstacles in the **Hierarchy Window**.
+     - In the **Inspector Window**, find the **Tag** dropdown and choose **Add Tag**.
+     - Add a new tag named `Respawn`.
+     - Assign the `Respawn` tag to the obstacle GameObjects.
+     - 
+      ![image](https://github.com/user-attachments/assets/184b6e68-2c0a-425b-b894-a9c612d1c067)
+
+   - **Score Trigger**:
+     - Select the score-triggering GameObject (the empty GameObject in the obstacle setup).
+     - Add a new tag named `Score`.
+     - Assign the `Score` tag to the score GameObject.
+       
+       ![image](https://github.com/user-attachments/assets/e1d4a216-99c1-43d0-ab53-93eba57a6701)
+
+
+#### Steps to Add the Canvas for the Score Display:
+
+1. **Create a Canvas**:
+   - In the **Hierarchy Window**, right-click and select **UI > Canvas**.
+   - In the **Inspector Window**, set the **Canvas Scaler** mode to **Scale with Screen Size**. This ensures that the UI elements scale properly across different screen sizes.
+  
+   ![image](https://github.com/user-attachments/assets/b8eab282-03da-4244-b8f8-4af85bb3923c)
+
+
+2. **Add a Text Element**:
+   - Right-click the **Canvas** in the **Hierarchy Window** and select **UI > Text - TextMeshPro** (preferred for better font rendering).
+   - Place the text element in the middle-top of the screen (adjust the position using the **Rect Transform** in the **Inspector Window**).
+   - Customize the font size, color, and alignment for clear visibility.
+
+3. **Name the Text**:
+   - Rename the text element to `ScoreText` in the **Hierarchy Window** for easier reference in the script.
+
+#### Updating the BirdController Script:
+
+#  Update BirdController Script: Scoring and Speed Increase
+
+Now, we’ll update the **BirdController** script to handle both the scoring system and the progressive speed increase. Every time the bird successfully passes through a score zone, the score will increase, and the game’s speed will slightly increase to make it progressively harder. 
+
+The script will also handle detecting the bird’s collisions with obstacles (Respawn) to stop the game when the bird hits something.
+
+#### Steps to Update the Script:
+
+1. **Create Score Display**:
+   - Add a reference to the **TextMeshPro** text component for displaying the score.
+   
+2. **Increase Speed Over Time**:
+   - Every time the score increases, slightly increase the game speed.
+   - Set a maximum speed limit to ensure the game doesn’t become unplayable.
+
+3. **Collision Detection**:
+   - If the bird collides with an object tagged `Score`, the score will increase, and the game speed will increase.
+   - If the bird collides with an object tagged `Respawn`, the game will stop.
+
+#### Updated BirdController Script:
+
+```csharp
+using UnityEngine; // Includes Unity’s libraries
+using TMPro;
+
+public class BirdController : MonoBehaviour // Defines the class for the bird
+{
+    public float jumpForce = 5f; // The strength of the bird’s jump
+    static int score;
+    public TMP_Text scoreText; // Reference to the TextMeshPro text component
+    private Rigidbody2D rb; // Reference to the Rigidbody2D component
+    public float speedIncreaseAmount = 0.01f; // Amount to increase the game speed by every time the score increases
+    public float maxTimeScale = 1.5f; // Maximum time scale value
+
+    void Start()
+    {
+        score = 0;
+        rb = GetComponent<Rigidbody2D>(); // Find the Rigidbody2D component on the bird
+    }
+
+    void Update()
+    {
+        scoreText.text = score.ToString(); // Update the score display
+
+        if (Input.GetMouseButtonDown(0)) // Check if the player clicks or taps
+        {
+            rb.linearVelocity = Vector2.up * jumpForce; // Apply upward force to the bird
+        }
+    }
+
+    void StopGame()
+    {
+        Time.timeScale = 0; // Pause the game by setting time scale to 0
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        // Check if the bird has passed through the trigger
+        if (other.CompareTag("score"))
+        {
+            score++; // Increment the score
+            Time.timeScale += speedIncreaseAmount; // Increase the time scale by the defined amount
+            Time.timeScale = Mathf.Min(Time.timeScale, maxTimeScale); // Clamp it to maxTimeScale
+            Debug.Log("Score: " + score + " Time: " + Time.timeScale); // Log the score for testing
+        }
+        if (other.CompareTag("Respawn"))
+        {
+            StopGame(); // Stop the game if the bird hits the respawn trigger
+        }
+    }
+}
+
+```
+
 
 
 
