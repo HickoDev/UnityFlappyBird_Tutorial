@@ -318,7 +318,7 @@ Tags are typically used for:
 3. **Name the Text**:
    - Rename the text element to `ScoreText` in the **Hierarchy Window** for easier reference in the script.
 
-#### Updating the BirdController Script:
+
 
 #  Update BirdController Script: Scoring and Speed Increase
 
@@ -393,6 +393,151 @@ public class BirdController : MonoBehaviour // Defines the class for the bird
 }
 
 ```
+
+# Adding the Spawner System
+
+To make the game dynamic, we need to spawn obstacles and ground tiles at regular intervals. The spawner system will handle:
+- **Obstacle spawning**: Obstacles (pipes) will appear at a fixed X position but at random Y positions within a defined range.
+- **Ground spawning**: Ground tiles will appear at a fixed X and Y position to create a continuous scrolling effect.
+
+
+
+
+#### Objective
+For the main game mechanics, we need to dynamically spawn the ground and obstacles at regular intervals:
+- **Obstacles**: Spawn at a fixed X position with a random Y position within a specified range.
+- **Ground tiles**: Spawn at a fixed X and Y position to create a continuous scrolling effect.
+
+
+
+#### Steps to Implement the Spawner System
+
+1. **GameObjects for Spawning**:
+
+   - Create two empty GameObjects in the **Hierarchy**:
+     - **GSpawner**: Responsible for spawning the ground tiles.
+     - **OSpawner**: Responsible for spawning the obstacles.
+       
+
+![Capture d'écran 2025-01-22 210113](https://github.com/user-attachments/assets/3946c359-bc0b-4af9-9283-735a753d00c6)
+
+
+2. **Attach the Script**:
+   - Use the **Spawner** script below, and attach it to both **GSpawner** and **OSpawner** GameObjects.
+
+```csharp
+using UnityEngine;
+
+public class Spawner : MonoBehaviour
+{
+    public GameObject PrefabToSpawn; // The prefab to spawn
+    public float initialSpawnInterval; // Time between each spawn
+    public float minY; // Minimum Y position for spawning (used for obstacles)
+    public float maxY; // Maximum Y position for spawning (used for obstacles)
+    public float spawnX; // Fixed X position for spawning
+    public float spawnZ; // Fixed Z position for spawning
+
+    private float currentSpawnInterval;
+
+    void Start()
+    {
+        currentSpawnInterval = initialSpawnInterval;
+        InvokeRepeating(nameof(SpawnObject), currentSpawnInterval, currentSpawnInterval);
+    }
+
+    void SpawnObject()
+    {
+        // Generate a random Y position for obstacles
+        float randomY = Random.Range(minY, maxY);
+
+        // Define spawn position
+        Vector3 spawnPosition = new Vector3(spawnX, randomY, spawnZ);
+
+        // Instantiate the prefab at the calculated position
+        Instantiate(PrefabToSpawn, spawnPosition, Quaternion.identity);
+    }
+}
+
+``` 
+
+3. **Adjusting the Spawner Script Variables**:
+
+To ensure objects spawn off-screen, configure the **Spawner Script** as follows:
+
+* Ospawner:
+
+![image](https://github.com/user-attachments/assets/6d577547-0c01-4eed-bf85-924773abca71)
+
+
+* Gspawner:
+
+![image](https://github.com/user-attachments/assets/3aef85dd-c3d6-4b89-92a0-7fba74c5ca32)
+
+
+#### **Note**: How to Create a Prefab
+1. Select a GameObject from the **Hierarchy** (e.g., an obstacle or ground object).
+2. Drag the GameObject into the **Project Window**.
+3. A prefab will be created, allowing you to reuse the object as needed.
+
+# Adding a Button and Best Score Display
+
+In this section, we will add a **Restart Button** and a **Best Score** display to the game. The restart button will be shown only when the player loses, and it will allow the player to restart the game. The best score will track the highest score achieved by the player and will persist across sessions.
+
+### Step 1: Create the UI Button
+1. **Add the Button**:
+   - In the **Hierarchy**, right-click and select **UI** > **Button - TextMeshPro** (or **Button** if you don't have TextMeshPro).
+   - Rename the button to **RestartButton** or something similar.
+   - Adjust the button’s position and size according to your preference.
+   
+2. **Attach an Image to the Button**:
+   - Click on the **RestartButton** in the **Hierarchy**.
+   - In the **Inspector**, find the **Button** component.
+   - In the **Image** field, click the small circle next to **Source Image** and choose any image you like from the **Art** folder. This will be the button's visual representation.
+  
+### Step 2: Create the Best Score Text
+1. **Add the Text Element**:
+   - Right-click on the **Canvas** in the **Hierarchy** again, and select **UI** > **Text - TextMeshPro**.
+   - Rename it to **BestScoreText**.
+   - Place this text at a convenient location on the screen (for example, at the top-right corner).
+
+2. **Change the Text**:
+   - Modify the **Text** field in the **TextMeshPro** component to display something like: "Best Score: 0".
+   - Adjust the alignment and font size to your preference.
+  
+ ### Step 3 : Make the both of them invisible
+  * In the Hierarchy Window, click on the GameObject you want to make invisible.
+  * In the Inspector Window, at the top of the GameObject's properties, you will see a checkbox next to the GameObject's name.
+  * Uncheck the box next to the GameObject's name (this is the "active" checkbox). This will deactivate the entire GameObject and make it invisible in the scene, along with disabling all its components (such as the Renderer, Colliders, Scripts, etc.).
+
+    ![image](https://github.com/user-attachments/assets/405e22c2-0d7f-45bf-9318-5bd8f3a6a21a)
+
+### Step 4 : Make the button reload the game
+ * make a script to reload :
+ ```csharp
+   
+using UnityEngine;
+using UnityEngine.SceneManagement; // Required for scene management
+public class RestartController : MonoBehaviour
+{
+    // This function reloads the current scene
+    public void ReloadScene()
+    {
+        // Get the current scene and reload it
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+}
+```
+* attach the script to an empty game object you created :
+  
+   ![image](https://github.com/user-attachments/assets/b3a82252-4986-4c97-a5ba-b03221a3b734)
+
+* go to the button and on click use the gameobject 
+
+  
+
+
+    
+  
 
 
 
