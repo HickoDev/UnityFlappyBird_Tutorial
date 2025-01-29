@@ -29,11 +29,7 @@ public class BirdController : MonoBehaviour
 
     void Update()
     {
-        // Starts the game when the player clicks for the first time
-        if (isplaying == true && countnumber == 1)
-        {
-            Time.timeScale = 1;
-        }
+ 
 
         scoreText.text = score.ToString(); // Update score text on the UI
 
@@ -41,9 +37,10 @@ public class BirdController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             countnumber++; // Increase tap count
-            if (countnumber == 0 && isplaying == false)
+            if (countnumber == 1 && isplaying == false)
             {
                 isplaying = true; // Set game to active state
+                Time.timeScale = 1;
             }
             rb.linearVelocity = Vector2.up * jumpForce; // Apply upward force to the bird
         }
