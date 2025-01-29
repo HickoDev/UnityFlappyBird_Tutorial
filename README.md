@@ -544,7 +544,7 @@ public class RestartController : MonoBehaviour
 using UnityEngine; // Includes Unity’s core game engine library
 using TMPro; // Allows the use of TextMeshPro for UI text rendering
 
-public class BirdController : MonoBehaviour 
+public class BirdController : MonoBehaviour
 {
     public float jumpForce = 5f; // The force applied to the bird when jumping
     public int score; // Stores the player's current score
@@ -572,21 +572,18 @@ public class BirdController : MonoBehaviour
 
     void Update()
     {
-        // Starts the game when the player clicks for the first time
-        if (isplaying == true && countnumber == 1)
-        {
-            Time.timeScale = 1;
-        }
+ 
 
         scoreText.text = score.ToString(); // Update score text on the UI
 
         // Detects player input to make the bird jump
-        if (Input.GetMouseButtonDown(0)) 
+        if (Input.GetMouseButtonDown(0))
         {
             countnumber++; // Increase tap count
-            if (countnumber == 0 && isplaying == false) 
-            { 
+            if (countnumber == 1 && isplaying == false)
+            {
                 isplaying = true; // Set game to active state
+                Time.timeScale = 1;
             }
             rb.linearVelocity = Vector2.up * jumpForce; // Apply upward force to the bird
         }
@@ -612,10 +609,11 @@ public class BirdController : MonoBehaviour
         // If the bird hits an obstacle, stop the game
         if (other.CompareTag("Respawn"))
         {
-            StopGame(); 
+            StopGame();
         }
     }
 }
+
 ```
 
 ### 1. **Game Start Behavior**  
